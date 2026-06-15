@@ -1,12 +1,3 @@
-/**
- * This file has been claimed for ownership from @oussemasahbeni/keycloakify-login-shadcn version 250004.0.15.
- * To relinquish ownership and restore this file to its original content, run the following command:
- * 
- * $ npx keycloakify own --path "login/components/Template/Template.tsx" --revert
- */
-
-import { Languages } from "@/components/langauges";
-import { ModeToggle } from "@/components/theme-toggle";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -14,10 +5,10 @@ import { redirectUrlOrigin } from "@/login/shared/redirectUrlOrigin";
 import { kcSanitize } from "@keycloakify/login-ui/kcSanitize";
 import { useKcClsx } from "@keycloakify/login-ui/useKcClsx";
 import {
-     Tooltip,
-     TooltipContent,
-     TooltipProvider,
-     TooltipTrigger
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger
 } from "@radix-ui/react-tooltip";
 import { useSetClassName } from "keycloakify/tools/useSetClassName";
 import { RotateCcw } from "lucide-react";
@@ -26,12 +17,9 @@ import { useEffect } from "react";
 import { FiHome } from "react-icons/fi";
 import { useI18n } from "../../i18n";
 import { useKcContext } from "../../KcContext";
-import companylogoBlack from "./../../assets/img/auth-logo-black.svg";
-import companylogoWhite from "./../../assets/img/auth-logo-white.svg";
-import shape from "./../../assets/img/shape.svg";
+import clubeLogo from "./../../assets/img/clube-logo.svg";
+import { BackgroundImage } from "../BackgroundImage";
 import { useInitializeTemplate } from "./useInitializeTemplate";
-
-const APP_NAME = "Pormade Auth";
 
 export function Template(props: {
     displayInfo?: boolean;
@@ -60,7 +48,7 @@ export function Template(props: {
 
     const { auth, url, message, isAppInitiatedAction } = kcContext;
 
-    const { msg, msgStr, enabledLanguages } = useI18n();
+    const { msg, msgStr } = useI18n();
 
     const { kcClsx } = useKcClsx();
 
@@ -86,204 +74,161 @@ export function Template(props: {
     }
 
     return (
-        <div className="grid rounded-2xl min-h-svh lg:grid-cols-2 bg-white dark:bg-background lg:bg-transparent">
-            {/* Main content */}
-            <div className="flex flex-col gap-4 px-0 py-0 pb-6 lg:p-6 lg:md:p-10 lg:pt-10 min-h-screen lg:min-h-0">
-                {/*  navigation */}
-                <div className="absolute top-4 right-4 lg:left-4  z-20 flex gap-2">
-                    <Button type="button" variant="outline" size="icon" asChild>
-                        <a href={kcContext.client.baseUrl ?? redirectUrlOrigin}>
-                            <FiHome />
-                        </a>
-                    </Button>
+        <div className="relative flex h-dvh flex-col gap-16 overflow-y-auto p-5 text-foreground sm:p-7 lg:flex-row lg:items-center lg:gap-0">
+            <BackgroundImage color="var(--color-clube-green-darker)" />
 
-                    {enabledLanguages.length > 1 && <Languages />}
+            <a
+                href={kcContext.client.baseUrl ?? redirectUrlOrigin}
+                className="fixed top-5 left-5 z-20 sm:top-7 sm:left-7"
+            >
+                <img
+                    src={clubeLogo}
+                    alt="Clube Pormade"
+                    className="h-12 w-auto brightness-0 invert"
+                />
+            </a>
 
-                    {kcContext.darkMode !== false && <ModeToggle />}
+            <div className="absolute top-5 right-5 z-20 sm:top-7 sm:right-7">
+                <Button
+                    type="button"
+                    variant="outline"
+                    size="icon"
+                    className="border-white/30 bg-white/10 text-white hover:bg-white/20 hover:text-white"
+                    asChild
+                >
+                    <a href={kcContext.client.baseUrl ?? redirectUrlOrigin}>
+                        <FiHome />
+                    </a>
+                </Button>
+            </div>
+
+            <aside className="relative z-10 flex w-full flex-col items-center lg:grow lg:items-start lg:justify-center">
+                <div className="flex w-full max-w-xl flex-col gap-4 pt-16 text-start text-white sm:pt-20 lg:max-w-2xl lg:pt-24 lg:mb-12">
+                    <h1 className="font-playfair text-4xl leading-snug font-bold sm:text-5xl lg:text-6xl">
+                        {msg("welcomeTitle")}
+                    </h1>
+                    <p className="text-lg leading-snug text-white/90 sm:text-xl">
+                        {msg("welcomeMessage")}
+                    </p>
                 </div>
+            </aside>
 
-                {/* Mobile header with logo */}
-                <div className="lg:hidden relative pt-8 px-6">
-                    {/* Logo and welcome message */}
-                    <div className="flex flex-col items-center justify-center gap-3 mt-4">
-                        <div className=" mb-4 flex items-center gap-3">
-                            <img src={companylogoBlack} alt="Logo" className="dark:hidden" />
-                            <img src={companylogoWhite} alt="Logo" className="hidden dark:block" />
-                            <span className=" text-2xl"> {APP_NAME}</span>
-                        </div>
-                    </div>
-                </div>
+            <aside className="relative z-10 flex w-full flex-col items-center lg:grow lg:justify-center">
+                <Card className="w-full max-w-xl rounded-2xl border-0 bg-white p-2 shadow-sm sm:p-4">
+                    <CardHeader className="text-center">
+                        <CardTitle>
+                            {(() => {
+                                const node = !(
+                                    auth !== undefined &&
+                                    auth.showUsername &&
+                                    !auth.showResetCredentials
+                                ) ? (
+                                    <div className="text-start">{headerNode}</div>
+                                ) : (
+                                    <div
+                                        id="kc-username"
+                                        className="flex items-center justify-center gap-2"
+                                    >
+                                        <label
+                                            className="text-lg font-semibold"
+                                            id="kc-attempted-username"
+                                        >
+                                            {auth.attemptedUsername}
+                                        </label>
 
-                <div className="flex flex-1 items-start lg:items-center justify-center lg:mt-0 ">
-                    <div className="w-full max-w-xl ">
-                        <Card className=" shadow-none bg-transparent lg:bg-card border-0 lg:rounded-lg lg:border lg:shadow-sm rounded-t-2xl">
-                            <CardHeader className="text-center">
-                                <CardTitle>
-                                    {(() => {
-                                        const node = !(
-                                            auth !== undefined &&
-                                            auth.showUsername &&
-                                            !auth.showResetCredentials
-                                        ) ? (
-                                            <h1 className="text-xl">{headerNode}</h1>
-                                        ) : (
-                                            <div
-                                                id="kc-username"
-                                                className="flex items-center justify-center gap-2"
-                                            >
-                                                <label
-                                                    className="font-semibold text-lg"
-                                                    id="kc-attempted-username"
-                                                >
-                                                    {auth.attemptedUsername}
-                                                </label>
-
-                                                <TooltipProvider>
-                                                    <Tooltip>
-                                                        <TooltipTrigger asChild>
-                                                            <Button
-                                                                variant="outline"
-                                                                size="icon"
-                                                                asChild
-                                                            >
-                                                                <a
-                                                                    id="reset-login"
-                                                                    href={
-                                                                        url.loginRestartFlowUrl
-                                                                    }
-                                                                    aria-label={msgStr(
-                                                                        "restartLoginTooltip"
-                                                                    )}
-                                                                >
-                                                                    <RotateCcw className="h-4 w-4" />
-                                                                </a>
-                                                            </Button>
-                                                        </TooltipTrigger>
-                                                        <TooltipContent>
-                                                            <p>
-                                                                {msg(
-                                                                    "restartLoginTooltip"
-                                                                )}
-                                                            </p>
-                                                        </TooltipContent>
-                                                    </Tooltip>
-                                                </TooltipProvider>
-                                            </div>
-                                        );
-
-                                        if (displayRequiredFields) {
-                                            return (
-                                                <div className="flex items-center justify-between gap-2">
-                                                    <div>{node}</div>
-                                                    <div>
-                                                        <span className="subtitle">
-                                                            <span className="text-red-500">
-                                                                *
-                                                            </span>
-                                                            {msg("requiredFields")}
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            );
-                                        }
-
-                                        return node;
-                                    })()}
-                                </CardTitle>
-                            </CardHeader>
-                            <CardContent >
-                                <div id="kc-content">
-                                    <div id="kc-content-wrapper">
-                                        {displayMessage &&
-                                            message !== undefined &&
-                                            (message.type !== "warning" ||
-                                                !isAppInitiatedAction) && (
-                                                <Alert
-                                                    variant={message.type}
-                                                    className="my-3"
-                                                >
-                                                    <AlertDescription>
-                                                        <div>
-                                                            <span
-                                                                dangerouslySetInnerHTML={{
-                                                                    __html: kcSanitize(
-                                                                        message.summary
-                                                                    )
-                                                                }}
-                                                            />
-                                                        </div>
-                                                    </AlertDescription>
-                                                </Alert>
-                                            )}
-                                        <div className="children">{children}</div>
-                                        {socialProvidersNode}
-                                        {auth !== undefined &&
-                                            auth.showTryAnotherWayLink && (
-                                                <form
-                                                    id="kc-select-try-another-way-form"
-                                                    action={url.loginAction}
-                                                    method="post"
-                                                >
-                                                    <div
-                                                        className={kcClsx(
-                                                            "kcFormGroupClass"
-                                                        )}
-                                                    >
-                                                        <input
-                                                            type="hidden"
-                                                            name="tryAnotherWay"
-                                                            value="on"
-                                                        />
+                                        <TooltipProvider>
+                                            <Tooltip>
+                                                <TooltipTrigger asChild>
+                                                    <Button variant="outline" size="icon" asChild>
                                                         <a
-                                                            href="#"
-                                                            id="try-another-way"
-                                                            onClick={(event) => {
-                                                                document.forms[
-                                                                    "kc-select-try-another-way-form" as never
-                                                                ].submit();
-                                                                event.preventDefault();
-                                                                return false;
-                                                            }}
+                                                            id="reset-login"
+                                                            href={url.loginRestartFlowUrl}
+                                                            aria-label={msgStr("restartLoginTooltip")}
                                                         >
-                                                            {msg("doTryAnotherWay")}
+                                                            <RotateCcw className="h-4 w-4" />
                                                         </a>
-                                                    </div>
-                                                </form>
-                                            )}
-                                        {displayInfo && (
-                                            <div className="text-center text-sm mt-4">
-                                                {infoNode}
-                                            </div>
-                                        )}
+                                                    </Button>
+                                                </TooltipTrigger>
+                                                <TooltipContent>
+                                                    <p>{msg("restartLoginTooltip")}</p>
+                                                </TooltipContent>
+                                            </Tooltip>
+                                        </TooltipProvider>
                                     </div>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </div>
-                </div>
-            </div>
+                                );
 
-            <div className="bg-slate-950 relative hidden lg:block dark:bg-white/5">
-                <div className="flex items-center pt-20 h-full justify-center z-1">
-                    <div className="absolute right-0 top-0 w-full max-w-62.5 xl:max-w-112.5">
-                        <img src={shape} alt="grid" />
-                    </div>
-                    <div className="absolute bottom-0 left-0 w-full max-w-62.5 rotate-180 xl:max-w-112.5">
-                        <img src={shape} alt="grid" />
-                    </div>
+                                if (displayRequiredFields) {
+                                    return (
+                                        <div className="flex items-center justify-between gap-2">
+                                            <div>{node}</div>
+                                            <div>
+                                                <span className="subtitle">
+                                                    <span className="text-red-500">*</span>
+                                                    {msg("requiredFields")}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    );
+                                }
 
-                    <div className="flex justify-center my-auto flex-col items-center max-w-xs">
-                        <div className=" mb-4 flex items-center gap-3">
-                            <img src={companylogoWhite} alt="Logo" />
-                            <span className="text-white text-2xl">{APP_NAME}</span>
+                                return node;
+                            })()}
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                        <div id="kc-content">
+                            <div id="kc-content-wrapper">
+                                {displayMessage &&
+                                    message !== undefined &&
+                                    (message.type !== "warning" || !isAppInitiatedAction) && (
+                                        <Alert variant={message.type} className="my-3">
+                                            <AlertDescription>
+                                                <div>
+                                                    <span
+                                                        dangerouslySetInnerHTML={{
+                                                            __html: kcSanitize(message.summary)
+                                                        }}
+                                                    />
+                                                </div>
+                                            </AlertDescription>
+                                        </Alert>
+                                    )}
+                                <div className="children">{children}</div>
+                                {socialProvidersNode}
+                                {auth !== undefined && auth.showTryAnotherWayLink && (
+                                    <form
+                                        id="kc-select-try-another-way-form"
+                                        action={url.loginAction}
+                                        method="post"
+                                    >
+                                        <div className={kcClsx("kcFormGroupClass")}>
+                                            <input type="hidden" name="tryAnotherWay" value="on" />
+                                            <a
+                                                href="#"
+                                                id="try-another-way"
+                                                onClick={(event) => {
+                                                    document.forms[
+                                                        "kc-select-try-another-way-form" as never
+                                                    ].submit();
+                                                    event.preventDefault();
+                                                    return false;
+                                                }}
+                                            >
+                                                {msg("doTryAnotherWay")}
+                                            </a>
+                                        </div>
+                                    </form>
+                                )}
+                                {displayInfo && (
+                                    <div className="mt-4 text-center text-sm text-muted-foreground">
+                                        {infoNode}
+                                    </div>
+                                )}
+                            </div>
                         </div>
-
-                        <p className="text-center  text-gray-400 dark:text-white/60">
-                            {msg("welcomeMessage")}
-                        </p>
-                    </div>
-                </div>
-            </div>
+                    </CardContent>
+                </Card>
+            </aside>
         </div>
     );
 }
