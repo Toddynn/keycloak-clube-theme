@@ -74,7 +74,7 @@ export function Template(props: {
     }
 
     return (
-        <div className="relative flex h-dvh flex-col gap-16 overflow-y-auto p-5 text-foreground sm:p-7 lg:flex-row lg:items-center lg:gap-0">
+        <div className="relative flex h-dvh flex-col gap-16 overflow-hidden overflow-y-auto p-5 text-foreground sm:p-7 lg:flex-row lg:items-center lg:gap-0">
             <BackgroundImage color="var(--color-clube-green-darker)" />
 
             <a
@@ -114,7 +114,7 @@ export function Template(props: {
             </aside>
 
             <aside className="relative z-10 flex w-full flex-col items-center lg:grow lg:justify-center">
-                <Card className="w-full max-w-xl rounded-2xl border-0 bg-white p-2 shadow-sm sm:p-4">
+                <Card className="kc-login-card w-full max-w-xl rounded-2xl border-0 bg-white p-2 shadow-sm sm:p-4">
                     <CardHeader className="text-center">
                         <CardTitle>
                             {(() => {
