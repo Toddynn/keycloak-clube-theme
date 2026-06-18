@@ -8,14 +8,15 @@ import path from "node:path";
 export default defineConfig({
      resolve: {
           alias: {
-              "@": path.resolve(__dirname, "./src")
+               "@": path.resolve(__dirname, "./src")
           }
-      },
-  plugins: [react({
-    babel: {
-      plugins: [['babel-plugin-react-compiler']]
-    }
-  }), tailwindcss(),keycloakify({
-    accountThemeImplementation: "none"
-  })]
+     },
+     plugins: [react({
+          babel: {
+               plugins: [['babel-plugin-react-compiler']]
+          }
+     }), tailwindcss(), keycloakify({
+          themeName: "clube-pormade-keycloak-theme",
+          accountThemeImplementation: "none"
+     })]
 });
