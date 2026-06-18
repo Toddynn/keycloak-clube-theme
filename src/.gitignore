@@ -1,6 +1,8 @@
 # This file is managed by Keycloakify, do not edit it manually.
 
 # === Owned files start ===
+# login/i18n.ts
+# login/index.css
 # login/assets/img/auth-logo.svg
 # login/components/Template/Template.tsx
 # === Owned files end =====
@@ -50,8 +52,6 @@
 /components/langauges.tsx
 /components/theme-provider.tsx
 /components/theme-toggle.tsx
-/login/i18n.ts
-/login/index.css
 /login/KcContext.ts
 /login/KcPage.tsx
 /login/styleLevelCustomization.tsx
